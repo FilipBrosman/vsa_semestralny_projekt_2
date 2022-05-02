@@ -33,4 +33,21 @@ public class CarParkResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+
+    @GET
+    @Path("/carparks/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCarPark(@PathParam("id") Long id) {
+        try{
+            CarPark carpark = (CarPark) cps.getCarPark(id);
+            if (carpark == null) throw new ObjectNotFoundException();
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(json.writeValueAsString(carpark))
+                    .build();
+        }
+        catch (JsonProcessingException | ObjectNotFoundException e){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
 }
