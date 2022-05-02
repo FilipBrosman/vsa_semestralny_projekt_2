@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import sk.stuba.fei.uim.vsa.pr2.CarParkService;
 import sk.stuba.fei.uim.vsa.pr2.entity.CarPark;
+import sk.stuba.fei.uim.vsa.pr2.entity.CarParkFloor;
 import sk.stuba.fei.uim.vsa.pr2.web.response.ObjectNotFoundException;
 
 import java.util.List;
@@ -24,9 +25,9 @@ public class CarParkResource {
     public Response getAllCarParks() {
         try{
             List<Object> carparks = cps.getCarParks();
-            if (carparks == null) throw new ObjectNotFoundException();
+            if (carparks.isEmpty()) throw new ObjectNotFoundException();
             return Response
-                    .status(Response.Status.OK)
+                    .status(Response.Status.OK.getStatusCode())
                     .entity(json.writeValueAsString(carparks))
                     .build();
         }
@@ -43,7 +44,7 @@ public class CarParkResource {
             CarPark carpark = (CarPark) cps.getCarPark(id);
             if (carpark == null) throw new ObjectNotFoundException();
             return Response
-                    .status(Response.Status.OK)
+                    .status(Response.Status.OK.getStatusCode())
                     .entity(json.writeValueAsString(carpark))
                     .build();
         }

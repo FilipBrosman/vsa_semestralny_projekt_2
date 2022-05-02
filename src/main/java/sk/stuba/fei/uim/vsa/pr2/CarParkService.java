@@ -113,8 +113,9 @@ public class CarParkService extends AbstractCarParkService {
 
     @Override
     public List<Object> getCarParkFloors(Long carParkId) {
-        if (carParkId == null)
+        if (carParkId == null) {
             return new ArrayList<>();
+        }
         CarPark cp = (CarPark) getCarPark(carParkId);
         if (cp == null)
             return new ArrayList<>();

@@ -1,5 +1,7 @@
 package sk.stuba.fei.uim.vsa.pr2.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.swing.*;
 
@@ -18,9 +20,11 @@ public class Car {
     private String color;
 
     @ManyToOne
+    @JsonBackReference
     private User owner;
 
     @OneToOne
+    @JsonBackReference
     private Reservation reservation;
 
     public Car() {

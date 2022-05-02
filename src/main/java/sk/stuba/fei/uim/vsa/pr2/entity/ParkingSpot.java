@@ -1,5 +1,8 @@
 package sk.stuba.fei.uim.vsa.pr2.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +17,14 @@ public class ParkingSpot {
     private String spotLabel;
 
     @ManyToOne
+    @JsonBackReference
     private CarParkFloor carParkFloor;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Car car;
 
     @OneToMany(mappedBy = "parkingSpot",cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonManagedReference
     private List<Reservation> reservations = new ArrayList<>();
 
     public ParkingSpot() {

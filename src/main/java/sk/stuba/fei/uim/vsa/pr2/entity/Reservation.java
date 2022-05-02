@@ -1,5 +1,7 @@
 package sk.stuba.fei.uim.vsa.pr2.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 import javax.persistence.*;
@@ -25,11 +27,14 @@ public class Reservation {
     private Integer sumPrice;
 
     @ManyToOne
+    @JsonBackReference
     private ParkingSpot parkingSpot;
     @OneToOne(mappedBy = "reservation", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Car car;
 
     @OneToOne
+    @JsonBackReference
     private Coupon coupon;
 
     public Reservation() {

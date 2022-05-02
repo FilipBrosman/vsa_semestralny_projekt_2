@@ -1,5 +1,9 @@
 package sk.stuba.fei.uim.vsa.pr2.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +19,12 @@ public class CarParkFloor {
     private String floorIdentifier;
 
     @ManyToOne
+    @JsonBackReference
     private CarPark carPark;
 
     @OneToMany(mappedBy = "carParkFloor", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     //@JoinColumn(name = "park_floor")
+    @JsonManagedReference
     private final List<ParkingSpot> parkingSpots = new ArrayList<>();
 
     public CarParkFloor(CarPark carPark, String floorIdentifier) {

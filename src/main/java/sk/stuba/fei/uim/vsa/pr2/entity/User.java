@@ -1,5 +1,7 @@
 package sk.stuba.fei.uim.vsa.pr2.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +20,11 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "owner",cascade = CascadeType.REMOVE, fetch=FetchType.EAGER)
+    @JsonManagedReference
     private final List<Car> cars = new ArrayList<>();
 
     @OneToMany(mappedBy = "owner",cascade = CascadeType.REMOVE, fetch=FetchType.EAGER)
+    @JsonManagedReference
     private final List<Coupon> coupons = new ArrayList<>();
 
     public User() {

@@ -1,5 +1,8 @@
 package sk.stuba.fei.uim.vsa.pr2.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -15,9 +18,11 @@ public class Coupon {
     private Date usedDate;
 
     @ManyToOne
+    @JsonBackReference
     private User owner;
 
     @OneToOne(mappedBy = "coupon")
+    @JsonManagedReference
     private Reservation reservation;
 
     public Coupon() {

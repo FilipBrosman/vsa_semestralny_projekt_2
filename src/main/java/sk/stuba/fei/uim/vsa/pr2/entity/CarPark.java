@@ -1,5 +1,8 @@
 package sk.stuba.fei.uim.vsa.pr2.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,7 +22,9 @@ public class CarPark implements Serializable {
     private Integer pricePerHour;
 
     @OneToMany(mappedBy = "carPark", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
+//    @JsonIgnoreProperties("carPark")
     //@JoinColumn(name = "car_park_fk")
+    @JsonManagedReference
     private final List<CarParkFloor> carParkFloors = new ArrayList<>();
 
     public CarPark() {
