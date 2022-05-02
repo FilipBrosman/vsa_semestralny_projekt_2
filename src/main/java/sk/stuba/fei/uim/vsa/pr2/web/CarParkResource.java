@@ -71,4 +71,25 @@ public class CarParkResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
+
+    //TODO: PUT carparks/{id}
+
+    @DELETE
+    @Path("/carparks/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteCarPark(@PathParam("id") Long id) {
+        try{
+            CarPark carPark = (CarPark) cps.deleteCarPark(id);
+            if (carPark == null) throw new ObjectNotFoundException();
+            return Response
+                    .status(Response.Status.NO_CONTENT)
+                    .entity(json.writeValueAsString(carPark))
+                    .build();
+        }
+        catch (JsonProcessingException | ObjectNotFoundException e){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+
 }
