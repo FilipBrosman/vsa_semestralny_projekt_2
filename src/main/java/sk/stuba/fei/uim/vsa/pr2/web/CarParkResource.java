@@ -51,4 +51,24 @@ public class CarParkResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+
+    @POST
+    @Path("/carparks")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createCarPark(String body) {
+        try{
+            CarPark cp = json.readValue(body, CarPark.class);
+
+            CarPark carPark = (CarPark) cps.createCarPark(cp.getName(), cp.getAddress(), cp.getPricePerHour());
+            if (carPark == null) throw new ObjectNotFoundException();
+            return Response
+                    .status(Response.Status.CREATED)
+                    .entity(json.writeValueAsString(carPark))
+                    .build();
+        }
+        catch (JsonProcessingException | ObjectNotFoundException e){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
 }
