@@ -15,9 +15,9 @@ import java.util.logging.Logger;
 public class Project2 {
 
     public static final Logger LOGGER = Logger.getLogger(Project2.class.getName());
-    public static final String BASE_URI = "http://localhost/";
+    public static final String BASE_URI = "http://localhost";
     public static final int PORT = 8080;
-    public static final Class<? extends Application> APPLICATION_CLASS = null; // TODO sem dosaď vlastnú triedu
+    public static final Class<? extends Application> APPLICATION_CLASS = Project2Application.class;
 
     public static void main(String[] args) {
         try {
@@ -50,6 +50,9 @@ public class Project2 {
 
     public static void postStart() {
         // TODO sem napíš akékoľvek nastavenia, či volania, ktoré sa majú udiať ihneď po štarte
-    }
+        CarParkService cp = new CarParkService();
+        cp.createCarPark("Test name", "Test adress 123", 2);
+        cp.createCarPark("Test name 2", "Test adress 23", 1);
 
+    }
 }

@@ -4,7 +4,14 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
     <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <!-- TODO Domain Classes -->
+        <class>sk.stuba.fei.uim.vsa.pr2.entity.Car</class>
+        <class>sk.stuba.fei.uim.vsa.pr2.entity.CarPark</class>
+        <class>sk.stuba.fei.uim.vsa.pr2.entity.CarParkFloor</class>
+        <class>sk.stuba.fei.uim.vsa.pr2.entity.Coupon</class>
+        <class>sk.stuba.fei.uim.vsa.pr2.entity.ParkingSpot</class>
+        <class>sk.stuba.fei.uim.vsa.pr2.entity.Reservation</class>
+        <class>sk.stuba.fei.uim.vsa.pr2.entity.User</class>
+
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
@@ -14,8 +21,8 @@
 
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
             <property name="eclipselink.target-database" value="MySQL"/>
-            <property name="eclipselink.logging.level.sql" value="FINE"/>
-            <property name="eclipselink.logging.parameters" value="true"/>
+<!--            <property name="eclipselink.logging.level.sql" value="FINE"/>-->
+<!--            <property name="eclipselink.logging.parameters" value="true"/>-->
 
         </properties>
     </persistence-unit>
