@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import javax.swing.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "CAR")
-public class Car {
+public class Car implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

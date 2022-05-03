@@ -22,8 +22,6 @@ public class CarPark implements Serializable {
     private Integer pricePerHour;
 
     @OneToMany(mappedBy = "carPark", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
-//    @JsonIgnoreProperties("carPark")
-    //@JoinColumn(name = "car_park_fk")
     @JsonManagedReference
     private final List<CarParkFloor> carParkFloors = new ArrayList<>();
 
