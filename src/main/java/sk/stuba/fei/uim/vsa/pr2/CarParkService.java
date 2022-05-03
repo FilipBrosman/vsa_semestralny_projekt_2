@@ -245,6 +245,7 @@ public class CarParkService extends AbstractCarParkService {
 
         Optional<ParkingSpot> ps = Optional.ofNullable(entityManager.find(ParkingSpot.class, parkingSpotId));
         if(ps.isPresent()) {
+            ps.get().getCarParkFloor().getParkingSpots().remove(ps.get());
             remove(ps.get());
             return ps.get();
         }

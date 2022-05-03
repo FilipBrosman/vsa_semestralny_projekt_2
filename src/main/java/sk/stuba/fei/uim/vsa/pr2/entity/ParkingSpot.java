@@ -60,6 +60,14 @@ public class ParkingSpot implements Serializable {
         this.reservations = reservations;
     }
 
+    public String getSpotLabel() {
+        return spotLabel;
+    }
+
+    public void setSpotLabel(String spotLabel) {
+        this.spotLabel = spotLabel;
+    }
+
     @Override
     public String toString() {
         if (car == null)
