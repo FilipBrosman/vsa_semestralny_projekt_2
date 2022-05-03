@@ -39,6 +39,26 @@ public class Car implements Serializable  {
         this.owner = owner;
     }
 
+    public String getEcv() {
+        return ecv;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
     public Long getId() {
         return id;
     }
