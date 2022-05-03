@@ -2,33 +2,51 @@ package sk.stuba.fei.uim.vsa.pr2.web;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import sk.stuba.fei.uim.vsa.pr2.CarParkService;
 import sk.stuba.fei.uim.vsa.pr2.entity.Car;
 import sk.stuba.fei.uim.vsa.pr2.entity.CarPark;
+import sk.stuba.fei.uim.vsa.pr2.entity.CarParkFloor;
 import sk.stuba.fei.uim.vsa.pr2.entity.User;
 import sk.stuba.fei.uim.vsa.pr2.web.request.CarParkRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.request.CarRequest;
+import sk.stuba.fei.uim.vsa.pr2.web.request.CreateCarRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.response.ObjectNotFoundException;
+
 import java.util.List;
 
-@Path("/")
+@Path("/cars")
 public class CarResource extends AbstractResource {
 
     @GET
-    @Path("/cars")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response getAllCars(String body) {
+        try{
+            CarRequest cr = json.readValue(body, CarRequest.class);
 
+
+            List<Object> cars = cps.getCars(8L);
+            if (cars == null) throw new ObjectNotFoundException();
+
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(json.writeValueAsString(cars))
+                    .build();
+        }
+        catch (JsonProcessingException e){
             return Response.status(Response.Status.BAD_REQUEST).build();
-
+        }
+        catch (ObjectNotFoundException ex){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
     @GET
-    @Path("/cars/{id}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCar(@PathParam("id") Long id) {
         try{
@@ -47,17 +65,32 @@ public class CarResource extends AbstractResource {
     }
 
     @POST
-    @Path("/cars")
+    @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createCar(String body) {
-        return Response.status(Response.Status.BAD_REQUEST).build();
+        try{
+            CreateCarRequest cr = json.readValue(body, CreateCarRequest.class);
+            User u = (User) cps.getUser(cr.getOwner());
+            if (u == null ) return Response.status(Response.Status.NOT_FOUND).build();
+
+            Car c = (Car) cps.createCar(cr.getOwner(), cr.getBrand(), cr.getModel(), cr.getColor(), cr.getEcv());
+            if (c == null) return Response.status(Response.Status.BAD_REQUEST).build();
+
+            return Response
+                    .status(Response.Status.CREATED)
+                    .entity(json.writeValueAsString(c))
+                    .build();
+        }
+        catch (JsonProcessingException e){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
     }
 
     //TODO: PUT /cars/{id}
 
     @DELETE
-    @Path("/cars/{id}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteCar(@PathParam("id") Long id) {
