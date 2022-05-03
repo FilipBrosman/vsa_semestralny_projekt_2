@@ -98,10 +98,9 @@ public class CarResource extends AbstractResource {
             if (car == null) throw new ObjectNotFoundException();
             return Response
                     .status(Response.Status.NO_CONTENT)
-                    .entity(json.writeValueAsString(car))
                     .build();
         }
-        catch (JsonProcessingException | ObjectNotFoundException e){
+        catch (ObjectNotFoundException e){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
