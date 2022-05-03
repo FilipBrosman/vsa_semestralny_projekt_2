@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.Response;
 import sk.stuba.fei.uim.vsa.pr2.CarParkService;
 import sk.stuba.fei.uim.vsa.pr2.entity.CarPark;
 import sk.stuba.fei.uim.vsa.pr2.entity.CarParkFloor;
+import sk.stuba.fei.uim.vsa.pr2.web.request.CarParkRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.response.ObjectNotFoundException;
 
 import java.util.List;
@@ -59,7 +60,7 @@ public class CarParkResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createCarPark(String body) {
         try{
-            CarPark cp = json.readValue(body, CarPark.class);
+            CarParkRequest cp = json.readValue(body, CarParkRequest.class);
 
             CarPark carPark = (CarPark) cps.createCarPark(cp.getName(), cp.getAddress(), cp.getPricePerHour());
             if (carPark == null) throw new ObjectNotFoundException();
