@@ -1,13 +1,13 @@
 package sk.stuba.fei.uim.vsa.pr2.web.request;
 
 public class CarRequest {
-    public Long id;
+    private Long user;
 
-    public Long getId() {
-        return id;
+    public Long getUser() {
+        return user;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUser(Long user) {
+        this.user = user;
     }
 }

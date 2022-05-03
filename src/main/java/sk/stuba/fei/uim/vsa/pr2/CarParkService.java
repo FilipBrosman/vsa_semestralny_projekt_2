@@ -312,6 +312,7 @@ public class CarParkService extends AbstractCarParkService {
         if (carId==null) return null;
         Optional<Car> car = Optional.ofNullable(entityManager.find(Car.class, carId));
         if(car.isPresent()) {
+            car.get().getOwner().getCars().remove(car.get());
             remove(car.get());
             return car.get();
         }

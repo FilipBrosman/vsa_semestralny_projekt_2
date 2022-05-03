@@ -13,6 +13,8 @@ import java.util.List;
 
 @Path("/")
 public class ParkingSpotsResource extends AbstractResource {
+
+    //TODO: GET /carparks/{id}/spots
     @GET
     @Path("/carparks/{id}/floors/{identifier}/spots")
     @Produces(MediaType.APPLICATION_JSON)
