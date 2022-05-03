@@ -1,4 +1,4 @@
-package sk.stuba.fei.uim.vsa.pr2.web;
+    package sk.stuba.fei.uim.vsa.pr2.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.ws.rs.*;
@@ -7,21 +7,35 @@ import jakarta.ws.rs.core.Response;
 import sk.stuba.fei.uim.vsa.pr2.entity.ParkingSpot;
 import sk.stuba.fei.uim.vsa.pr2.entity.User;
 import sk.stuba.fei.uim.vsa.pr2.web.request.ParkingSpotRequest;
+import sk.stuba.fei.uim.vsa.pr2.web.request.UserEmailRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.request.UserRequest;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
-@Path("/")
+    @Path("/")
 public class UserResource extends AbstractResource {
-
+        //TODO: dokončiť s emailom v body
     @GET
     @Path("/users")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllUsers() {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getAllUsers(String body) {
         try{
-            List<Object> us =  cps.getUsers();
-            if (us.isEmpty()) return Response
-                    .status(Response.Status.NO_CONTENT)
+            List<Object> us;
+            if (Objects.equals(body, "")) {
+                us = cps.getUsers();
+            }
+            else{
+                UserEmailRequest uer = json.readValue(body, UserEmailRequest.class);
+                us = new ArrayList<>();
+                us.add(cps.getUser(uer.getEmail()));
+            }
+
+            if (us == null) return Response
+                    .status(Response.Status.NOT_FOUND)
                     .build();
             return Response
                     .status(Response.Status.OK)
@@ -51,6 +65,8 @@ public class UserResource extends AbstractResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
+
+    //TODO: PUT /users/{id}
 
     @POST
     @Path("/users")
