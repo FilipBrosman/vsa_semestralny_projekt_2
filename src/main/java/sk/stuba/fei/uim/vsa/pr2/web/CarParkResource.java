@@ -15,10 +15,7 @@ import sk.stuba.fei.uim.vsa.pr2.web.response.ObjectNotFoundException;
 import java.util.List;
 
 @Path("/")
-public class CarParkResource {
-    public static final String EMPTY_RESPONSE = "{}";
-    private final ObjectMapper json = new ObjectMapper();
-    private final CarParkService cps = new CarParkService();
+public class CarParkResource extends AbstractResource {
 
     @GET
     @Path("/carparks")

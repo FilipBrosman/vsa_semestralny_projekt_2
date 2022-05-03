@@ -23,7 +23,7 @@ public class CarParkFloor implements Serializable {
     @JsonBackReference
     private CarPark carPark;
 
-    @OneToMany(mappedBy = "carParkFloor", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "carParkFloor", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
     //@JoinColumn(name = "park_floor")
     @JsonManagedReference
     private final List<ParkingSpot> parkingSpots = new ArrayList<>();
