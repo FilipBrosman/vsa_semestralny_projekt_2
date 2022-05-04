@@ -7,14 +7,40 @@ import jakarta.ws.rs.core.Response;
 import sk.stuba.fei.uim.vsa.pr2.entity.ParkingSpot;
 import sk.stuba.fei.uim.vsa.pr2.entity.Reservation;
 import sk.stuba.fei.uim.vsa.pr2.web.request.CreateReservationRequest;
+import sk.stuba.fei.uim.vsa.pr2.web.request.GetReservationsRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.request.ParkingSpotRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.response.ObjectNotFoundException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Path("/")
 public class ReservationResource extends AbstractResource {
+
+    @GET
+    @Path("/reservations")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMyReservations( @QueryParam("user") Long user ){
+        try{
+            if (user == null) throw new ObjectNotFoundException();
+
+            List<Object> res = cps.getMyReservations(user);
+            if (res.isEmpty()) return Response
+                    .status(Response.Status.NO_CONTENT)
+                    .build();
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(json.writeValueAsString(res))
+                    .build();
+        }
+        catch (JsonProcessingException e){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        catch (ObjectNotFoundException ex){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
 
     @POST
     @Path("/reservations")
@@ -36,7 +62,7 @@ public class ReservationResource extends AbstractResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
-
+    //TODO: PUT /reservations/{id}
     @POST
     @Path("/reservations/{id}/end")
     @Produces(MediaType.APPLICATION_JSON)
