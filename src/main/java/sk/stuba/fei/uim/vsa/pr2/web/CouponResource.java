@@ -23,10 +23,6 @@ public class CouponResource extends AbstractResource {
             if (user == null) throw new ObjectNotFoundException();
 
             List<Object> coupons = cps.getCoupons(user);
-            if (coupons.isEmpty()) return Response
-                    .status(Response.Status.NO_CONTENT)
-                    .entity(json.writeValueAsString(coupons))
-                    .build();
             return Response
                     .status(Response.Status.OK)
                     .entity(json.writeValueAsString(coupons))
