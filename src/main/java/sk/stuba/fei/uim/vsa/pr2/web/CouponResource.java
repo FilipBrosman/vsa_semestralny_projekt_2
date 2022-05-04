@@ -25,6 +25,7 @@ public class CouponResource extends AbstractResource {
             List<Object> coupons = cps.getCoupons(user);
             if (coupons.isEmpty()) return Response
                     .status(Response.Status.NO_CONTENT)
+                    .entity(json.writeValueAsString(coupons))
                     .build();
             return Response
                     .status(Response.Status.OK)
@@ -93,6 +94,26 @@ public class CouponResource extends AbstractResource {
             return Response
                     .status(Response.Status.CREATED)
                     .entity(json.writeValueAsString(c))
+                    .build();
+        }
+        catch (JsonProcessingException e){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+
+    @DELETE
+    @Path("/coupons/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteCoupon( @PathParam("id") Long id ){
+        try{
+            Coupon coupon = (Coupon) cps.getCoupon(id);
+            if (coupon == null) return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .build();
+            cps.deleteCoupon(id);
+            return Response
+                    .status(Response.Status.NO_CONTENT)
+                    .entity(json.writeValueAsString(coupon))
                     .build();
         }
         catch (JsonProcessingException e){

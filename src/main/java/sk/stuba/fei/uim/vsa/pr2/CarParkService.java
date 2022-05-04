@@ -470,7 +470,7 @@ public class CarParkService extends AbstractCarParkService {
     @Override
     public Object createDiscountCoupon(String name, Integer discount) {
         if (name == null || discount == null) return null;
-        Coupon c = new Coupon(name, 10);
+        Coupon c = new Coupon(name, discount);
         persist(c);
         return c;
     }
@@ -542,6 +542,9 @@ public class CarParkService extends AbstractCarParkService {
         Optional<Coupon> c = Optional.ofNullable(entityManager.find(Coupon.class ,couponId));
         if (!c.isPresent())
             return null;
+        if (c.get().getOwner().getCoupons().contains(c.get()))
+            c.get().getOwner().getCoupons().remove(c.get());
+
         remove(c.get());
         return c.get();
     }
