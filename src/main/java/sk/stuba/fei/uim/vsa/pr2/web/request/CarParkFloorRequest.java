@@ -2,21 +2,29 @@ package sk.stuba.fei.uim.vsa.pr2.web.request;
 
 public class CarParkFloorRequest {
 
-    private String floorIdentifier;
+    private String identifier;
+    private String carParkFloor;
 
     public CarParkFloorRequest() {
     }
 
-    public CarParkFloorRequest(String floorIdentifier, Long carPark) {
-        this.floorIdentifier = floorIdentifier;
+    public CarParkFloorRequest(String identifier, Long carPark) {
+        this.identifier = identifier;
     }
 
-    public String getFloorIdentifier() {
-        return floorIdentifier;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setFloorIdentifier(String floorIdentifier) {
-        this.floorIdentifier = floorIdentifier;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
+    public String getCarParkFloor() {
+        return carParkFloor;
+    }
+
+    public void setCarParkFloor(String carParkFloor) {
+        this.carParkFloor = carParkFloor;
+    }
 }
