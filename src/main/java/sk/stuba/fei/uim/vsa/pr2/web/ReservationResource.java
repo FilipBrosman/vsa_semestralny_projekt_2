@@ -74,7 +74,7 @@ public class ReservationResource extends AbstractResource {
             Reservation res = (Reservation) cps.endReservation(id);
             if (res == null) throw new ObjectNotFoundException();
             return Response
-                    .status(Response.Status.CREATED)
+                    .status(Response.Status.OK)
                     .entity(json.writeValueAsString(res))
                     .build();
         }
