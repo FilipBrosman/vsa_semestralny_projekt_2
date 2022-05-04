@@ -53,6 +53,8 @@ public class ParkingSpotsResource extends AbstractResource {
         }
     }
 
+    //TODO: PUT /carparks/{id}/floors/{identifier}/spots
+
     @POST
     @Path("/carparks/{id}/floors/{identifier}/spots")
     @Produces(MediaType.APPLICATION_JSON)

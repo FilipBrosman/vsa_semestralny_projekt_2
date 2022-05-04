@@ -76,7 +76,7 @@ public class UserResource extends AbstractResource {
         try{
             UserRequest ur = json.readValue(body, UserRequest.class);
 
-            User u = (User) cps.createUser(ur.getName(), ur.getSurname(), ur.getEmail());
+            User u = (User) cps.createUser(ur.getFirstname(), ur.getLastname(), ur.getEmail());
             if (u == null) return Response.status(Response.Status.BAD_REQUEST).build();
 
             return Response

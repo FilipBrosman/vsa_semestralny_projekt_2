@@ -1,9 +1,10 @@
 package sk.stuba.fei.uim.vsa.pr2.web.request;
 
 public class CarParkRequest {
+    private Long id;
     private String name;
     private String address;
-    private Integer pricePerHour;
+    private Integer prices;
 
     public CarParkRequest() {
     }
@@ -11,7 +12,7 @@ public class CarParkRequest {
     public CarParkRequest(String name, String address, Integer pricePerHour) {
         this.name = name;
         this.address = address;
-        this.pricePerHour = pricePerHour;
+        this.prices = pricePerHour;
     }
 
     public String getName() {
@@ -30,11 +31,11 @@ public class CarParkRequest {
         this.address = address;
     }
 
-    public Integer getPricePerHour() {
-        return pricePerHour;
+    public Integer getPrices() {
+        return prices;
     }
 
-    public void setPricePerHour(Integer pricePerHour) {
-        this.pricePerHour = pricePerHour;
+    public void setPrices(Integer prices) {
+        this.prices = prices;
     }
 }
