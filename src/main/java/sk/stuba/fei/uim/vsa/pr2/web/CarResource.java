@@ -23,13 +23,12 @@ public class CarResource extends AbstractResource {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response getAllCars(String body) {
+    public Response getAllCars(@QueryParam("user") Long user) {
         try{
-            CarRequest cr = json.readValue(body, CarRequest.class);
+            User u = (User) cps.getUser(user);
+            if (u == null) throw new ObjectNotFoundException();
 
-
-            List<Object> cars = cps.getCars(8L);
+            List<Object> cars = cps.getCars(user);
             if (cars == null) throw new ObjectNotFoundException();
 
             return Response
