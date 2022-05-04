@@ -38,4 +38,25 @@ public class CouponResource extends AbstractResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+
+    @POST
+    @Path("/coupons")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createCoupon(String body){
+        try{
+            CouponRequest cr = json.readValue(body, CouponRequest.class);
+
+            Coupon c = (Coupon) cps.createDiscountCoupon(cr.getName(),cr.getDiscount());
+            if (c == null) return Response.status(Response.Status.BAD_REQUEST).build();
+
+            return Response
+                    .status(Response.Status.CREATED)
+                    .entity(json.writeValueAsString(c))
+                    .build();
+        }
+        catch (JsonProcessingException e){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
 }
