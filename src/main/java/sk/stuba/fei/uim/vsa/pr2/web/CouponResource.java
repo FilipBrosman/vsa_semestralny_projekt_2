@@ -39,6 +39,25 @@ public class CouponResource extends AbstractResource {
         }
     }
 
+    @GET
+    @Path("/coupons/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCoupon( @PathParam("id") Long id ){
+        try{
+            Coupon coupon = (Coupon) cps.getCoupon(id);
+            if (coupon == null) return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .build();
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(json.writeValueAsString(coupon))
+                    .build();
+        }
+        catch (JsonProcessingException e){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+
     @POST
     @Path("/coupons")
     @Consumes(MediaType.APPLICATION_JSON)
