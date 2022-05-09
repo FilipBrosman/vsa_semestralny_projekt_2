@@ -4,17 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import sk.stuba.fei.uim.vsa.pr2.entity.ParkingSpot;
-import sk.stuba.fei.uim.vsa.pr2.entity.Reservation;
 import sk.stuba.fei.uim.vsa.pr2.entity.User;
-import sk.stuba.fei.uim.vsa.pr2.web.request.ParkingSpotRequest;
-import sk.stuba.fei.uim.vsa.pr2.web.request.UserEmailRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.request.UserRequest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
     @Path("/")
 public class UserResource extends AbstractResource {
