@@ -8,6 +8,7 @@ import sk.stuba.fei.uim.vsa.pr2.entity.CarPark;
 import sk.stuba.fei.uim.vsa.pr2.entity.CarParkFloor;
 import sk.stuba.fei.uim.vsa.pr2.web.request.CarParkFloorRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.request.CarParkRequest;
+import sk.stuba.fei.uim.vsa.pr2.web.request.ParkingSpotRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.response.ObjectNotFoundException;
 
 import java.util.List;
@@ -51,9 +52,12 @@ public class CarParkFloorResource extends AbstractResource {
 
             CarParkFloorRequest cpfr = json.readValue(body, CarParkFloorRequest.class);
             CarParkFloor cpf = (CarParkFloor) cps.createCarParkFloor(carPark.getId(), cpfr.getIdentifier());
-            cpfr.getSpots().forEach(spot-> {
-                cps.createParkingSpot(cpfr.getCarPark(), cpfr.getIdentifier(), spot.getIdentifier());
-            });
+
+            for (ParkingSpotRequest spot: cpfr.getSpots()) {
+               if (cps.createParkingSpot(cpfr.getCarPark(), cpfr.getIdentifier(), spot.getIdentifier()) == null)
+                   return Response.status(Response.Status.BAD_REQUEST).build();
+            }
+
             if (cpf == null)
                 throw new ObjectNotFoundException();
             return Response
