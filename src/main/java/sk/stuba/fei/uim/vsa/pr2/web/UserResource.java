@@ -86,10 +86,11 @@ public class UserResource extends AbstractResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteParkingSpot(@PathParam("id") Long id){
         try{
-            User ps = (User) cps.deleteUser(id);
+            User ps = (User) cps.getUser(id);
             if (ps == null) return Response
                     .status(Response.Status.NOT_FOUND)
                     .build();
+            cps.deleteUser(id);
             return Response
                     .status(Response.Status.NO_CONTENT)
                     .entity(json.writeValueAsString(ps))
