@@ -1,6 +1,7 @@
 package sk.stuba.fei.uim.vsa.pr2.web.request;
 
 public class CouponRequest {
+    private Long id;
     private String name;
     private Integer discount;
 
@@ -18,5 +19,13 @@ public class CouponRequest {
 
     public void setDiscount(Integer discount) {
         this.discount = discount;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

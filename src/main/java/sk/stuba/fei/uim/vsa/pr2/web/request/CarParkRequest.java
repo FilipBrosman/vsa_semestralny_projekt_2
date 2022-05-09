@@ -1,6 +1,7 @@
 package sk.stuba.fei.uim.vsa.pr2.web.request;
 
 public class CarParkRequest {
+    private Long id;
     private String name;
     private String address;
     private Integer prices;
@@ -36,5 +37,13 @@ public class CarParkRequest {
 
     public void setPrices(Integer prices) {
         this.prices = prices;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
