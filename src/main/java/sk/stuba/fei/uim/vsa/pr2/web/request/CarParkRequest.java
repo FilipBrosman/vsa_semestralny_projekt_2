@@ -1,7 +1,6 @@
 package sk.stuba.fei.uim.vsa.pr2.web.request;
 
 public class CarParkRequest {
-    private Long id;
     private String name;
     private String address;
     private Integer prices;
