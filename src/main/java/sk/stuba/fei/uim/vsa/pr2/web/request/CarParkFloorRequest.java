@@ -1,9 +1,20 @@
 package sk.stuba.fei.uim.vsa.pr2.web.request;
 
+import java.util.List;
+
 public class CarParkFloorRequest {
     private Long id;
     private String identifier;
-    private String carParkFloor;
+    private Long carPark;
+    private List<ParkingSpotRequest> spots;
+
+    public List<ParkingSpotRequest> getSpots() {
+        return spots;
+    }
+
+    public void setSpots(List<ParkingSpotRequest> spots) {
+        this.spots = spots;
+    }
 
     public CarParkFloorRequest() {
     }
@@ -20,12 +31,12 @@ public class CarParkFloorRequest {
         this.identifier = identifier;
     }
 
-    public String getCarParkFloor() {
-        return carParkFloor;
+    public Long getCarPark() {
+        return carPark;
     }
 
-    public void setCarParkFloor(String carParkFloor) {
-        this.carParkFloor = carParkFloor;
+    public void setCarPark(Long carPark) {
+        this.carPark = carPark;
     }
 
     public Long getId() {

@@ -7,6 +7,7 @@ import jakarta.ws.rs.core.Response;
 import sk.stuba.fei.uim.vsa.pr2.entity.CarPark;
 import sk.stuba.fei.uim.vsa.pr2.entity.CarParkFloor;
 import sk.stuba.fei.uim.vsa.pr2.web.request.CarParkFloorRequest;
+import sk.stuba.fei.uim.vsa.pr2.web.request.CarParkRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.response.ObjectNotFoundException;
 
 import java.util.List;
@@ -42,15 +43,17 @@ public class CarParkFloorResource extends AbstractResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createCarParkFloors(@PathParam("id") Long id, String body){
         try{
-            CarPark cp = (CarPark)cps.getCarPark(id);
-            if (cp == null)
+            CarPark carPark = (CarPark)cps.getCarPark(id);
+            if (carPark == null)
                 return Response
                         .status(Response.Status.NOT_FOUND)
-                        .entity(json.writeValueAsString("[]"))
                         .build();
 
             CarParkFloorRequest cpfr = json.readValue(body, CarParkFloorRequest.class);
-            CarParkFloor cpf = (CarParkFloor) cps.createCarParkFloor(cp.getId(), cpfr.getIdentifier());
+            CarParkFloor cpf = (CarParkFloor) cps.createCarParkFloor(carPark.getId(), cpfr.getIdentifier());
+            cpfr.getSpots().forEach(spot-> {
+                cps.createParkingSpot(cpfr.getCarPark(), cpfr.getIdentifier(), spot.getIdentifier());
+            });
             if (cpf == null)
                 throw new ObjectNotFoundException();
             return Response
