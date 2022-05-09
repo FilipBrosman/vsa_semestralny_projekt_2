@@ -116,10 +116,11 @@ public class ParkingSpotsResource extends AbstractResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteParkingSpot(@PathParam("id") Long id){
         try{
-            ParkingSpot ps = (ParkingSpot) cps.deleteParkingSpot(id);
+            ParkingSpot ps = (ParkingSpot) cps.getParkingSpot(id);
             if (ps == null) return Response
                     .status(Response.Status.NOT_FOUND)
                     .build();
+            cps.deleteParkingSpot(id);
             return Response
                     .status(Response.Status.NO_CONTENT)
                     .entity(json.writeValueAsString(ps))
