@@ -19,6 +19,7 @@ public class Project2Application extends Application {
         appClasses.add(UserResource.class);
         appClasses.add(ReservationResource.class);
         appClasses.add(CouponResource.class);
+        appClasses.add(BasicAuth.class);
     }
 
     @Override
