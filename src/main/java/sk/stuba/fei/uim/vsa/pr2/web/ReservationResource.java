@@ -4,17 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import sk.stuba.fei.uim.vsa.pr2.entity.ParkingSpot;
 import sk.stuba.fei.uim.vsa.pr2.entity.Reservation;
 import sk.stuba.fei.uim.vsa.pr2.entity.User;
-import sk.stuba.fei.uim.vsa.pr2.web.request.CreateReservationRequest;
-import sk.stuba.fei.uim.vsa.pr2.web.request.GetReservationsRequest;
-import sk.stuba.fei.uim.vsa.pr2.web.request.ParkingSpotRequest;
+import sk.stuba.fei.uim.vsa.pr2.web.request.ReservationRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.response.ObjectNotFoundException;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Path("/")
 public class ReservationResource extends AbstractResource {
@@ -70,8 +65,8 @@ public class ReservationResource extends AbstractResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createReservation(String body) {
         try{
-            CreateReservationRequest crr = json.readValue(body, CreateReservationRequest.class);
-            Reservation res = (Reservation) cps.createReservation(crr.getParkingSpotId(),crr.getCarId());
+            ReservationRequest crr = json.readValue(body, ReservationRequest.class);
+            Reservation res = (Reservation) cps.createReservation(crr.getSpot().getId(),crr.getCar().getId());
 
             if (res == null) throw new ObjectNotFoundException();
 
