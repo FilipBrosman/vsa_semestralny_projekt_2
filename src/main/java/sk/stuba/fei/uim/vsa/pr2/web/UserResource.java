@@ -17,30 +17,27 @@ import java.util.Objects;
 
     @Path("/")
 public class UserResource extends AbstractResource {
-        //TODO: dokončiť s emailom v body
+
     @GET
     @Path("/users")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getAllUsers(String body) {
+    public Response getAllUsersOrByEmail(@QueryParam("email") String email) {
         try{
-            List<Object> us;
-            if (Objects.equals(body, "")) {
+            List<Object> us = new ArrayList<>();
+            if (email == null) {
                 us = cps.getUsers();
-            }
-            else{
-                UserEmailRequest uer = json.readValue(body, UserEmailRequest.class);
-                us = new ArrayList<>();
-                us.add(cps.getUser(uer.getEmail()));
-            }
-
-            if (us == null) return Response
-                    .status(Response.Status.NOT_FOUND)
-                    .build();
-            return Response
+                return Response
                     .status(Response.Status.OK)
                     .entity(json.writeValueAsString(us))
                     .build();
+            }
+
+            us.add(cps.getUser(email));
+            return Response
+                .status(Response.Status.OK)
+                .entity(json.writeValueAsString(us))
+                .build();
         }
         catch (JsonProcessingException e){
             return Response.status(Response.Status.BAD_REQUEST).build();
