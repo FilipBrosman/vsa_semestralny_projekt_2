@@ -5,7 +5,6 @@ import sk.stuba.fei.uim.vsa.pr2.entity.*;
 import javax.persistence.*;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class CarParkService extends AbstractCarParkService {
 
@@ -83,7 +82,7 @@ public class CarParkService extends AbstractCarParkService {
         if (optionalCarParkFloor.isPresent())
             return null;
         CarParkFloor cpf = new CarParkFloor(cp, floorIdentifier);
-        cp.getCarParkFloors().add(cpf);
+        cp.getFloors().add(cpf);
         persist(cp,cpf);
         return cpf;
     }
@@ -97,7 +96,7 @@ public class CarParkService extends AbstractCarParkService {
             return null;
 
         TypedQuery<CarParkFloor> query = entityManager.createQuery("select cpf from CarParkFloor cpf " +
-                "where cpf.floorIdentifier=:floor_identifier AND cpf.carPark=:cp",CarParkFloor.class);
+                "where cpf.identifier=:floor_identifier AND cpf.carPark=:cp",CarParkFloor.class);
         query.setParameter("floor_identifier", floorIdentifier);
         query.setParameter("cp", cp);
 
@@ -120,7 +119,7 @@ public class CarParkService extends AbstractCarParkService {
         if (cp == null)
             return new ArrayList<>();
 
-        return Arrays.asList(cp.getCarParkFloors().toArray());
+        return Arrays.asList(cp.getFloors().toArray());
     }
 
     @Override
@@ -142,7 +141,7 @@ public class CarParkService extends AbstractCarParkService {
 
         Optional<CarParkFloor> cpf = Optional.ofNullable(entityManager.find(CarParkFloor.class, carParkFloorId));
         if(cpf.isPresent()) {
-            cpf.get().getCarPark().getCarParkFloors().remove(cpf.get());
+            cpf.get().getCarPark().getFloors().remove(cpf.get());
             remove(cpf.get());
             return cpf.get();
         }
@@ -163,7 +162,7 @@ public class CarParkService extends AbstractCarParkService {
             return null;
 
         ParkingSpot ps = new ParkingSpot(cpf, spotIdentifier);
-        cpf.getParkingSpots().add(ps);
+        cpf.getSpots().add(ps);
         persist(cpf, ps);
         return ps;
     }
@@ -185,7 +184,7 @@ public class CarParkService extends AbstractCarParkService {
         CarParkFloor cpf = (CarParkFloor)getCarParkFloorByCarParkId(cp.getId(), floorIdentifier);
         if (cpf == null)
             return new ArrayList<>();
-        return Arrays.asList(cpf.getParkingSpots().toArray());
+        return Arrays.asList(cpf.getSpots().toArray());
     }
 
     @Override
@@ -196,8 +195,8 @@ public class CarParkService extends AbstractCarParkService {
         CarPark cp = entityManager.find(CarPark.class, carParkId);
         if (cp == null) return new HashMap<>();
 
-        cp.getCarParkFloors().forEach(carParkFloor -> parkingSpots.put(carParkFloor.getFloorIdentifier(),
-                Arrays.asList(carParkFloor.getParkingSpots().toArray())));
+        cp.getFloors().forEach(carParkFloor -> parkingSpots.put(carParkFloor.getIdentifier(),
+                Arrays.asList(carParkFloor.getSpots().toArray())));
         return parkingSpots;
     }
 
@@ -207,10 +206,10 @@ public class CarParkService extends AbstractCarParkService {
         CarPark cp = (CarPark) getCarPark(carParkName);
         if (cp == null) return new HashMap<>();
 
-        cp.getCarParkFloors().forEach(carParkFloor -> {
-            CarParkFloor cpf = (CarParkFloor) getCarParkFloorByCarParkId(cp.getId(), carParkFloor.getFloorIdentifier());
+        cp.getFloors().forEach(carParkFloor -> {
+            CarParkFloor cpf = (CarParkFloor) getCarParkFloorByCarParkId(cp.getId(), carParkFloor.getIdentifier());
             if (cpf == null) return;
-            parkingSpots.put(carParkFloor.getFloorIdentifier(),
+            parkingSpots.put(carParkFloor.getIdentifier(),
                 Arrays.asList(carParkFloor.getAvailableSpots().toArray()));
         });
 
@@ -223,10 +222,10 @@ public class CarParkService extends AbstractCarParkService {
         CarPark cp = (CarPark) getCarPark(carParkName);
         if (cp == null) return new HashMap<>();
 
-        cp.getCarParkFloors().forEach(carParkFloor -> {
-            CarParkFloor cpf = (CarParkFloor) getCarParkFloorByCarParkId(cp.getId(), carParkFloor.getFloorIdentifier());
+        cp.getFloors().forEach(carParkFloor -> {
+            CarParkFloor cpf = (CarParkFloor) getCarParkFloorByCarParkId(cp.getId(), carParkFloor.getIdentifier());
             if (cpf == null) return;
-            parkingSpots.put(carParkFloor.getFloorIdentifier(),
+            parkingSpots.put(carParkFloor.getIdentifier(),
                     Arrays.asList(carParkFloor.getOccupiedSpots().toArray()));
         });
 
@@ -246,7 +245,7 @@ public class CarParkService extends AbstractCarParkService {
 
         Optional<ParkingSpot> ps = Optional.ofNullable(entityManager.find(ParkingSpot.class, parkingSpotId));
         if(ps.isPresent()) {
-            ps.get().getCarParkFloor().getParkingSpots().remove(ps.get());
+            ps.get().getCarParkFloor().getSpots().remove(ps.get());
             remove(ps.get());
             return ps.get();
         }
@@ -283,7 +282,7 @@ public class CarParkService extends AbstractCarParkService {
         if (vehicleRegistrationPlate == null) return null;
 
         TypedQuery<Car> query = entityManager.createQuery("select car from Car car " +
-                "where car.ecv=:vehicleRegistrationPlate",Car.class);
+                "where car.vrp=:vehicleRegistrationPlate",Car.class);
         query.setParameter("vehicleRegistrationPlate", vehicleRegistrationPlate);
 
         Optional<Car> optionalCarParkFloor = query.getResultStream().findFirst();
@@ -390,17 +389,17 @@ public class CarParkService extends AbstractCarParkService {
             return null;
 
         TypedQuery<Reservation> query = entityManager.createQuery("select r from Reservation r " +
-                "where r.parkingSpot=:parking_spot", Reservation.class);
+                "where r.spot=:parking_spot", Reservation.class);
         query.setParameter("parking_spot", ps);
         Optional<Reservation> reservation = query.getResultList().stream().findFirst();
         if (reservation.isPresent()){
-            if (reservation.get().getEndTime() == null){
+            if (reservation.get().getEnd() == null){
                 return null;
             }
         }
 
         Reservation newReservation = new Reservation(ps, car);
-        newReservation.setStartTime(new Date());
+        newReservation.setStart(new Date());
         car.setReservation(newReservation);
         ps.setCar(car);
         ps.getReservations().add(newReservation);
@@ -416,12 +415,12 @@ public class CarParkService extends AbstractCarParkService {
         if (res == null)
             return null;
 
-        res.setEndTime(new Date());
+        res.setEnd(new Date());
 
-        long hours = (res.getEndTime().getTime() - res.getStartTime().getTime())/1000/60/60;
-        Integer pph = (int) ((hours==0)?1 : hours*res.getParkingSpot().getCarParkFloor().getCarPark().getPricePerHour());
+        long hours = (res.getEnd().getTime() - res.getStart().getTime())/1000/60/60;
+        Integer pph = (int) ((hours==0)?1 : hours*res.getSpot().getCarParkFloor().getCarPark().getPrices());
         res.setSumPrice(pph);
-        ParkingSpot ps = res.getParkingSpot();
+        ParkingSpot ps = res.getSpot();
         Car car = ps.getCar();
         car.setReservation(null);
         ps.setCar(null);
@@ -437,7 +436,7 @@ public class CarParkService extends AbstractCarParkService {
         if (ps == null)
             return new ArrayList<>();
         TypedQuery<Reservation> query = entityManager.createQuery("select r from Reservation r " +
-                "where r.reservationDate = :date AND r.parkingSpot=:parking_spot_id", Reservation.class);
+                "where r.reservationDate = :date AND r.spot=:parking_spot_id", Reservation.class);
         query.setParameter("date", date);
         query.setParameter("parking_spot_id", ps);
         return query.getResultStream().collect(Collectors.toList());
@@ -523,11 +522,11 @@ public class CarParkService extends AbstractCarParkService {
         if (discount.getUsedDate() != null)
             return null;
 
-        res.setEndTime(new Date());
-        discount.setUsedDate(res.getEndTime());
+        res.setEnd(new Date());
+        discount.setUsedDate(res.getEnd());
 
-        long hours = (res.getEndTime().getTime() - res.getStartTime().getTime())/1000/60/60;
-        int pph = (int) ((hours==0)?1 : hours*res.getParkingSpot().getCarParkFloor().getCarPark().getPricePerHour());
+        long hours = (res.getEnd().getTime() - res.getStart().getTime())/1000/60/60;
+        int pph = (int) ((hours==0)?1 : hours*res.getSpot().getCarParkFloor().getCarPark().getPrices());
         Integer discounted = pph - ((pph/100)* discount.getDiscount());
         res.setSumPrice(discounted);
         res.setCoupon(discount);
