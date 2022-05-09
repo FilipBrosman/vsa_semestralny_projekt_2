@@ -546,7 +546,7 @@ public class CarParkService extends AbstractCarParkService {
         Optional<Coupon> c = Optional.ofNullable(entityManager.find(Coupon.class ,couponId));
         if (!c.isPresent())
             return null;
-        if (c.get().getOwner().getCoupons().contains(c.get()))
+        if (c.get().getOwner() != null)
             c.get().getOwner().getCoupons().remove(c.get());
 
         remove(c.get());
