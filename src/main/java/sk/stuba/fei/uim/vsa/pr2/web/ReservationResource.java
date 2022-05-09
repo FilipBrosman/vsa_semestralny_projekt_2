@@ -74,8 +74,6 @@ public class ReservationResource extends AbstractResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response endReservation(@PathParam("id") Long id, String body) {
         try{
-            if (!Objects.equals(body, "")) throw new ObjectNotFoundException();
-
             Reservation res = (Reservation) cps.endReservation(id);
             if (res == null) throw new ObjectNotFoundException();
             return Response
