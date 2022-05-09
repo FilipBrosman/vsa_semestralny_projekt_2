@@ -1,10 +1,21 @@
 package sk.stuba.fei.uim.vsa.pr2.web.request;
 
+import java.util.List;
+
 public class CarParkRequest {
     private Long id;
     private String name;
     private String address;
     private Integer prices;
+    private List<CarParkFloorRequest> floors;
+
+    public List<CarParkFloorRequest> getFloors() {
+        return floors;
+    }
+
+    public void setFloors(List<CarParkFloorRequest> floors) {
+        this.floors = floors;
+    }
 
     public CarParkRequest() {
     }

@@ -19,7 +19,7 @@ public class CarPark implements Serializable {
     private String address;
     private Integer prices;
 
-    @OneToMany(mappedBy = "carPark", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "carPark", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonManagedReference
     private final List<CarParkFloor> floors = new ArrayList<>();
 
