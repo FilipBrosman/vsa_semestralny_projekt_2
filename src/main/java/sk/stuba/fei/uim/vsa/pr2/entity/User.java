@@ -1,5 +1,6 @@
 package sk.stuba.fei.uim.vsa.pr2.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -14,14 +15,14 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
-    private String surname;
+    private String firstname;
+    private String lastname;
 
     @Column(unique = true)
     private String email;
 
     @OneToMany(mappedBy = "owner",cascade = CascadeType.REMOVE, fetch=FetchType.EAGER)
-    @JsonManagedReference
+
     private final List<Car> cars = new ArrayList<>();
 
     @OneToMany(mappedBy = "owner",cascade = CascadeType.REMOVE, fetch=FetchType.EAGER)
@@ -31,9 +32,9 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String name, String surname, String email) {
-        this.name = name;
-        this.surname = surname;
+    public User(String firstname, String lastname, String email) {
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.email = email;
     }
 
@@ -41,20 +42,20 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstname(String name) {
+        this.firstname = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastname(String surname) {
+        this.lastname = surname;
     }
 
     public String getEmail() {
@@ -81,8 +82,8 @@ public class User implements Serializable {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
+                ", name='" + firstname + '\'' +
+                ", surname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
                 '}'+
                 '\n';
