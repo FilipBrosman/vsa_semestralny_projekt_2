@@ -12,10 +12,10 @@ public class Car implements Serializable  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(unique = true)
 
     private String brand;
     private String model;
+    @Column(unique = true)
     private String vrp;
     private String color;
 

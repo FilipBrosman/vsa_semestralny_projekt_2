@@ -68,7 +68,7 @@ public class CarResource extends AbstractResource {
             User u = (User) cps.getUser(cr.getOwner());
             if (u == null ) return Response.status(Response.Status.NOT_FOUND).build();
 
-            Car c = (Car) cps.createCar(cr.getOwner(), cr.getBrand(), cr.getModel(), cr.getColour(), cr.getVrp());
+            Car c = (Car) cps.createCar(u.getId(), cr.getBrand(), cr.getModel(), cr.getColour(), cr.getVrp());
             if (c == null) return Response.status(Response.Status.BAD_REQUEST).build();
 
             return Response
