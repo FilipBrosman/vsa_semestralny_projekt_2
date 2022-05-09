@@ -1,15 +1,12 @@
 package sk.stuba.fei.uim.vsa.pr2.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import sk.stuba.fei.uim.vsa.pr2.CarParkService;
 import sk.stuba.fei.uim.vsa.pr2.entity.CarPark;
 import sk.stuba.fei.uim.vsa.pr2.entity.ParkingSpot;
 import sk.stuba.fei.uim.vsa.pr2.web.request.ParkingSpotRequest;
-import sk.stuba.fei.uim.vsa.pr2.web.response.ObjectNotFoundException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -100,7 +97,7 @@ public class ParkingSpotsResource extends AbstractResource {
         try{
             ParkingSpotRequest psr = json.readValue(body, ParkingSpotRequest.class);
 
-            ParkingSpot ps = (ParkingSpot) cps.createParkingSpot(id, identifier, psr.getSpotLabel());
+            ParkingSpot ps = (ParkingSpot) cps.createParkingSpot(id, identifier, psr.getIdentifier());
             if (ps == null) return Response
                     .status(Response.Status.NOT_FOUND)
                     .build();
