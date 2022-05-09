@@ -54,7 +54,7 @@ public class CarResource extends AbstractResource {
                     .status(Response.Status.NOT_FOUND)
                     .build();
             return Response
-                    .status(Response.Status.OK.getStatusCode())
+                    .status(Response.Status.OK)
                     .entity(json.writeValueAsString(car))
                     .build();
         }
