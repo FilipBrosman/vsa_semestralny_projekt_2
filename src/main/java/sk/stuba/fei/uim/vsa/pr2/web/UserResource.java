@@ -5,6 +5,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import sk.stuba.fei.uim.vsa.pr2.entity.ParkingSpot;
+import sk.stuba.fei.uim.vsa.pr2.entity.Reservation;
 import sk.stuba.fei.uim.vsa.pr2.entity.User;
 import sk.stuba.fei.uim.vsa.pr2.web.request.ParkingSpotRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.request.UserEmailRequest;
@@ -31,8 +32,9 @@ public class UserResource extends AbstractResource {
                     .entity(json.writeValueAsString(us))
                     .build();
             }
-
-            us.add(cps.getUser(email));
+            User u = (User)cps.getUser(email);
+            if (u == null) return Response.status(Response.Status.NOT_FOUND).build();
+            us.add(u);
             return Response
                 .status(Response.Status.OK)
                 .entity(json.writeValueAsString(us))
