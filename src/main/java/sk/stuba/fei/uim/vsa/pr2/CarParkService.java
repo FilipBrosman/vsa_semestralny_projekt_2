@@ -459,6 +459,11 @@ public class CarParkService extends AbstractCarParkService {
         return Arrays.asList(reservationList.toArray());
     }
 
+    public Object getReservationById(Long reservationId) {
+        if (reservationId == null) return null;
+        return entityManager.find(Reservation.class, reservationId);
+    }
+
     @Override
     public Object updateReservation(Object reservation) {
         if (reservation == null) return null;

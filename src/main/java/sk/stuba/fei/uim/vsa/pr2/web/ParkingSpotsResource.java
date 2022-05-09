@@ -6,15 +6,53 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import sk.stuba.fei.uim.vsa.pr2.CarParkService;
+import sk.stuba.fei.uim.vsa.pr2.entity.CarPark;
 import sk.stuba.fei.uim.vsa.pr2.entity.ParkingSpot;
 import sk.stuba.fei.uim.vsa.pr2.web.request.ParkingSpotRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.response.ObjectNotFoundException;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Path("/")
 public class ParkingSpotsResource extends AbstractResource {
 
-    //TODO: GET /carparks/{id}/spots
+    @GET
+    @Path("/carparks/{id}/spots")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getParkingSpots(@PathParam("id") Long id, @QueryParam("free") Boolean par){
+        try{
+            CarPark cp = (CarPark) cps.getCarPark(id);
+            Map<String,List<Object>> ps = new HashMap<>();
+
+            if (par == null) {
+                ps = cps.getParkingSpots(id);
+                return Response
+                        .status(Response.Status.OK)
+                        .entity(json.writeValueAsString(ps))
+                        .build();
+            }
+
+            if (par)
+                ps =  cps.getAvailableParkingSpots(cp.getName());
+            else
+                ps =  cps.getOccupiedParkingSpots(cp.getName());
+
+            if (ps.isEmpty()) return Response
+                    .status(Response.Status.NO_CONTENT)
+                    .build();
+
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(json.writeValueAsString(ps))
+                    .build();
+        }
+        catch (JsonProcessingException e){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+
     @GET
     @Path("/carparks/{id}/floors/{identifier}/spots")
     @Produces(MediaType.APPLICATION_JSON)
