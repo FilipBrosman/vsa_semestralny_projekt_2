@@ -22,7 +22,7 @@ public class User implements Serializable {
     private String email;
 
     @OneToMany(mappedBy = "owner",cascade = CascadeType.REMOVE, fetch=FetchType.EAGER)
-
+    @JsonManagedReference
     private final List<Car> cars = new ArrayList<>();
 
     @OneToMany(mappedBy = "owner",cascade = CascadeType.REMOVE, fetch=FetchType.EAGER)
