@@ -1,13 +1,11 @@
 package sk.stuba.fei.uim.vsa.pr2.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "CAR_PARK")
@@ -19,11 +17,11 @@ public class CarPark implements Serializable {
     @Column(unique = true)
     private String name;
     private String address;
-    private Integer pricePerHour;
+    private Integer prices;
 
     @OneToMany(mappedBy = "carPark", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
-    private final List<CarParkFloor> carParkFloors = new ArrayList<>();
+    private final List<CarParkFloor> floors = new ArrayList<>();
 
     public CarPark() {
 
@@ -40,15 +38,15 @@ public class CarPark implements Serializable {
     public CarPark(String name, String address, Integer pricePerHour) {
         this.name = name;
         this.address = address;
-        this.pricePerHour = pricePerHour;
+        this.prices = pricePerHour;
     }
 
-    public List<CarParkFloor> getCarParkFloors() {
-        return carParkFloors;
+    public List<CarParkFloor> getFloors() {
+        return floors;
     }
 
-    public Integer getPricePerHour() {
-        return pricePerHour;
+    public Integer getPrices() {
+        return prices;
     }
 
     public String getName() {
@@ -67,8 +65,8 @@ public class CarPark implements Serializable {
         this.address = address;
     }
 
-    public void setPricePerHour(Integer pricePerHour) {
-        this.pricePerHour = pricePerHour;
+    public void setPrices(Integer pricePerHour) {
+        this.prices = pricePerHour;
     }
 
     @Override
@@ -77,7 +75,7 @@ public class CarPark implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
-                ", pricePerHour=" + pricePerHour +
+                ", pricePerHour=" + prices +
                 '}'+'\n';
     }
 }
