@@ -97,6 +97,14 @@ public class Reservation implements Serializable {
         return car;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setSpot(ParkingSpot spot) {
+        this.spot = spot;
+    }
+
     @Override
     public String toString() {
         if (car == null)
