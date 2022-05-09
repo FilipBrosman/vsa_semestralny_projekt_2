@@ -3,6 +3,7 @@ package sk.stuba.fei.uim.vsa.pr2.web.request;
 import java.lang.reflect.Array;
 
 public class UserRequest {
+    private Long id;
     private String firstname;
     private String lastname;
     private String email;
@@ -29,5 +30,13 @@ public class UserRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
