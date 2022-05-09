@@ -21,7 +21,6 @@ public class UserResource extends AbstractResource {
     @GET
     @Path("/users")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
     public Response getAllUsersOrByEmail(@QueryParam("email") String email) {
         try{
             List<Object> us = new ArrayList<>();
