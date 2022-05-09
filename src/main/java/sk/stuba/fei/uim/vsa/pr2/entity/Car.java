@@ -3,7 +3,6 @@ package sk.stuba.fei.uim.vsa.pr2.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
-import javax.swing.*;
 import java.io.Serializable;
 
 @Entity
@@ -14,10 +13,10 @@ public class Car implements Serializable  {
     private Long id;
 
     @Column(unique = true)
-    private String ecv;
 
     private String brand;
     private String model;
+    private String vrp;
     private String color;
 
     @ManyToOne
@@ -31,16 +30,16 @@ public class Car implements Serializable  {
     public Car() {
     }
 
-    public Car(String ecv, String brand, String model, String color, User owner) {
-        this.ecv = ecv;
+    public Car(String vrp, String brand, String model, String color, User owner) {
+        this.vrp = vrp;
         this.brand = brand;
         this.model = model;
         this.color = color;
         this.owner = owner;
     }
 
-    public String getEcv() {
-        return ecv;
+    public String getVrp() {
+        return vrp;
     }
 
     public String getBrand() {
@@ -59,6 +58,10 @@ public class Car implements Serializable  {
         return owner;
     }
 
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
     public Long getId() {
         return id;
     }
@@ -75,7 +78,7 @@ public class Car implements Serializable  {
     public String toString() {
         return "Car{" +
                 "id=" + id +
-                ", ecv='" + ecv + '\'' +
+                ", ecv='" + vrp + '\'' +
                 ", brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
                 ", color='" + color + '\'' +
