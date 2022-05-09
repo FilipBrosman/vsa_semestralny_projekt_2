@@ -76,8 +76,9 @@ public class CarParkResource extends AbstractResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteCarPark(@PathParam("id") Long id) {
         try{
-            CarPark carPark = (CarPark) cps.deleteCarPark(id);
+            CarPark carPark = (CarPark) cps.getCarPark(id);
             if (carPark == null) throw new ObjectNotFoundException();
+            cps.deleteCarPark(id);
             return Response
                     .status(Response.Status.NO_CONTENT)
                     .entity(json.writeValueAsString(carPark))
