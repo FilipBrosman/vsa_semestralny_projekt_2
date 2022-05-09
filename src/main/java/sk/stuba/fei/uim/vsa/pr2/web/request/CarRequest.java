@@ -1,13 +1,58 @@
 package sk.stuba.fei.uim.vsa.pr2.web.request;
 
 public class CarRequest {
-    private Long user;
+    private Long id;
+    private String brand;
+    private String model;
+    private String vrp;
+    private String colour;
+    private Long owner;
 
-    public Long getUser() {
-        return user;
+    public String getVrp() {
+        return vrp;
     }
 
-    public void setUser(Long user) {
-        this.user = user;
+    public void setVrp(String vrp) {
+        this.vrp = vrp;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getColour() {
+        return colour;
+    }
+
+    public void setColour(String colour) {
+        this.colour = colour;
+    }
+
+    public Long getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Long owner) {
+        this.owner = owner;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

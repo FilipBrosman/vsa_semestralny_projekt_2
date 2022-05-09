@@ -4,11 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import sk.stuba.fei.uim.vsa.pr2.entity.Car;
+import sk.stuba.fei.uim.vsa.pr2.entity.Coupon;
 import sk.stuba.fei.uim.vsa.pr2.entity.User;
+import sk.stuba.fei.uim.vsa.pr2.web.request.CarRequest;
+import sk.stuba.fei.uim.vsa.pr2.web.request.CouponRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.request.UserRequest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
     @Path("/")
 public class UserResource extends AbstractResource {
@@ -70,6 +75,19 @@ public class UserResource extends AbstractResource {
 
             User u = (User) cps.createUser(ur.getFirstname(), ur.getLastname(), ur.getEmail());
             if (u == null) return Response.status(Response.Status.BAD_REQUEST).build();
+            
+            for (CarRequest car: ur.getCars()) {
+                Car c = (Car) cps.createCar(u.getId(), car.getBrand(), car.getModel(), car.getColour(), car.getVrp());
+                if (c==null)
+                    return Response.status(Response.Status.BAD_REQUEST).build();
+            }
+
+            for (CouponRequest coupon: ur.getCoupons()){
+                Coupon c = (Coupon) cps.createDiscountCoupon(coupon.getName(),coupon.getDiscount());
+                if (c==null)
+                    return Response.status(Response.Status.BAD_REQUEST).build();
+                cps.giveCouponToUser(c.getId(), u.getId());
+            }
 
             return Response
                     .status(Response.Status.CREATED)

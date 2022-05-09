@@ -1,12 +1,14 @@
 package sk.stuba.fei.uim.vsa.pr2.web.request;
 
-import java.lang.reflect.Array;
+import java.util.List;
 
 public class UserRequest {
     private Long id;
     private String firstname;
     private String lastname;
     private String email;
+    private List<CarRequest> cars;
+    private List<CouponRequest> coupons;
 
     public String getFirstname() {
         return firstname;
@@ -38,5 +40,21 @@ public class UserRequest {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<CarRequest> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<CarRequest> cars) {
+        this.cars = cars;
+    }
+
+    public List<CouponRequest> getCoupons() {
+        return coupons;
+    }
+
+    public void setCoupons(List<CouponRequest> coupons) {
+        this.coupons = coupons;
     }
 }

@@ -5,14 +5,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import sk.stuba.fei.uim.vsa.pr2.CarParkService;
 import sk.stuba.fei.uim.vsa.pr2.entity.Car;
-import sk.stuba.fei.uim.vsa.pr2.entity.CarPark;
-import sk.stuba.fei.uim.vsa.pr2.entity.CarParkFloor;
 import sk.stuba.fei.uim.vsa.pr2.entity.User;
-import sk.stuba.fei.uim.vsa.pr2.web.request.CarParkRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.request.CarRequest;
-import sk.stuba.fei.uim.vsa.pr2.web.request.CreateCarRequest;
 import sk.stuba.fei.uim.vsa.pr2.web.response.ObjectNotFoundException;
 
 import java.util.List;
@@ -69,11 +64,11 @@ public class CarResource extends AbstractResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createCar(String body) {
         try{
-            CreateCarRequest cr = json.readValue(body, CreateCarRequest.class);
+            CarRequest cr = json.readValue(body, CarRequest.class);
             User u = (User) cps.getUser(cr.getOwner());
             if (u == null ) return Response.status(Response.Status.NOT_FOUND).build();
 
-            Car c = (Car) cps.createCar(cr.getOwner(), cr.getBrand(), cr.getModel(), cr.getColor(), cr.getEcv());
+            Car c = (Car) cps.createCar(cr.getOwner(), cr.getBrand(), cr.getModel(), cr.getColour(), cr.getVrp());
             if (c == null) return Response.status(Response.Status.BAD_REQUEST).build();
 
             return Response
