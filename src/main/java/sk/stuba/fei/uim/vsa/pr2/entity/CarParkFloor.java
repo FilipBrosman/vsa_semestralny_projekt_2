@@ -1,7 +1,7 @@
 package sk.stuba.fei.uim.vsa.pr2.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -17,7 +17,7 @@ public class CarParkFloor implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String floorIdentifier;
+    private String identifier;
 
     @ManyToOne
     @JsonBackReference
@@ -26,22 +26,22 @@ public class CarParkFloor implements Serializable {
     @OneToMany(mappedBy = "carParkFloor", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
     //@JoinColumn(name = "park_floor")
     @JsonManagedReference
-    private final List<ParkingSpot> parkingSpots = new ArrayList<>();
+    private final List<ParkingSpot> spots = new ArrayList<>();
 
-    public CarParkFloor(CarPark carPark, String floorIdentifier) {
+    public CarParkFloor(CarPark carPark, String identifier) {
         this.carPark = carPark;
-        this.floorIdentifier = floorIdentifier;
+        this.identifier = identifier;
     }
 
-    public CarParkFloor(String floorIdentifier) {
-        this.floorIdentifier = floorIdentifier;
+    public CarParkFloor(String identifier) {
+        this.identifier = identifier;
     }
 
     public CarParkFloor() {
     }
 
-    public String getFloorIdentifier() {
-        return floorIdentifier;
+    public String getIdentifier() {
+        return identifier;
     }
 
     public CarPark getCarPark() {
@@ -52,31 +52,34 @@ public class CarParkFloor implements Serializable {
         this.carPark = carPark;
     }
 
-    public List<ParkingSpot> getParkingSpots() {
-        return parkingSpots;
+
+    public List<ParkingSpot> getSpots() {
+        return spots;
     }
 
+    @JsonIgnore
     public List<ParkingSpot> getAvailableSpots() {
-        return this.parkingSpots.stream().filter(ps -> ps.getCar() == null).collect(Collectors.toList());
+        return this.spots.stream().filter(ps -> ps.getCar() == null).collect(Collectors.toList());
     }
 
+    @JsonIgnore
     public List<ParkingSpot> getOccupiedSpots() {
-        return this.parkingSpots.stream().filter(ps -> ps.getCar() != null).collect(Collectors.toList());
+        return this.spots.stream().filter(ps -> ps.getCar() != null).collect(Collectors.toList());
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setFloorIdentifier(String floorIdentifier) {
-        this.floorIdentifier = floorIdentifier;
+    public void setIdentifier(String floorIdentifier) {
+        this.identifier = floorIdentifier;
     }
 
     @Override
     public String toString() {
         return "CarParkFloor{" +
                 "id=" + id +
-                ", floorIdentifier='" + floorIdentifier + '\'' +
+                ", floorIdentifier='" + identifier + '\'' +
                 ", carPark=" + carPark +
                 '}'+'\n';
     }

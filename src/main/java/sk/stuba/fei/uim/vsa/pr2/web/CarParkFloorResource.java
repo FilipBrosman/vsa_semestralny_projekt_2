@@ -54,7 +54,7 @@ public class CarParkFloorResource extends AbstractResource {
                         .build();
 
             CarParkFloorRequest cpfr = json.readValue(body, CarParkFloorRequest.class);
-            CarParkFloor cpf = (CarParkFloor) cps.createCarParkFloor(cp.getId(), cpfr.getFloorIdentifier());
+            CarParkFloor cpf = (CarParkFloor) cps.createCarParkFloor(cp.getId(), cpfr.getIdentifier());
             if (cpf == null)
                 throw new ObjectNotFoundException();
             return Response
