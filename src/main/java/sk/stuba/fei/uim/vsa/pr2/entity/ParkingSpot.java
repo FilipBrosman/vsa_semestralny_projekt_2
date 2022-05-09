@@ -15,7 +15,7 @@ public class ParkingSpot implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String spotLabel;
+    private String identifier;
 
     @ManyToOne
     @JsonBackReference
@@ -24,7 +24,7 @@ public class ParkingSpot implements Serializable {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Car car;
 
-    @OneToMany(mappedBy = "parkingSpot",cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "spot",cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonManagedReference
     private List<Reservation> reservations = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class ParkingSpot implements Serializable {
 
     public ParkingSpot(CarParkFloor carParkFloor, String spotLabel) {
         this.carParkFloor = carParkFloor;
-        this.spotLabel = spotLabel;
+        this.identifier = spotLabel;
     }
 
     public Car getCar() {
@@ -48,6 +48,10 @@ public class ParkingSpot implements Serializable {
         return id;
     }
 
+    public void setCarParkFloor(CarParkFloor carParkFloor) {
+        this.carParkFloor = carParkFloor;
+    }
+
     public CarParkFloor getCarParkFloor() {
         return carParkFloor;
     }
@@ -60,12 +64,12 @@ public class ParkingSpot implements Serializable {
         this.reservations = reservations;
     }
 
-    public String getSpotLabel() {
-        return spotLabel;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setSpotLabel(String spotLabel) {
-        this.spotLabel = spotLabel;
+    public void setIdentifier(String spotLabel) {
+        this.identifier = spotLabel;
     }
 
     @Override
@@ -73,14 +77,14 @@ public class ParkingSpot implements Serializable {
         if (car == null)
             return "ParkingSpot{" +
                 "id=" + id +
-                ", spotLabel='" + spotLabel + '\'' +
+                ", spotLabel='" + identifier + '\'' +
                 ", carParkFloor=" + carParkFloor +
                 ", car=" + false +
                 '}'+'\n';
 
         return "ParkingSpot{" +
                 "id=" + id +
-                ", spotLabel='" + spotLabel + '\'' +
+                ", spotLabel='" + identifier + '\'' +
                 ", carParkFloor=" + carParkFloor +
                 ", car=" + car.toString() +
                 '}'+'\n';
