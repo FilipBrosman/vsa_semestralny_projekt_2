@@ -2,11 +2,9 @@ package sk.stuba.fei.uim.vsa.pr2.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -17,22 +15,23 @@ public class Reservation implements Serializable {
     private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date startTime;
+    private Date start;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date endTime;
+    private Date end;
 
     @Temporal(TemporalType.DATE)
     private final Date reservationDate = new Date();
 
     private Integer sumPrice;
 
-    @ManyToOne
-    @JsonBackReference
-    private ParkingSpot parkingSpot;
     @OneToOne(mappedBy = "reservation", fetch = FetchType.EAGER)
     @JsonManagedReference
     private Car car;
+
+    @ManyToOne
+    @JsonBackReference
+    private ParkingSpot spot;
 
     @OneToOne
     @JsonBackReference
@@ -41,25 +40,25 @@ public class Reservation implements Serializable {
     public Reservation() {
     }
 
-    public Reservation(ParkingSpot parkingSpot, Car car) {
-        this.parkingSpot = parkingSpot;
+    public Reservation(ParkingSpot spot, Car car) {
+        this.spot = spot;
         this.car = car;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStart(Date startTime) {
+        this.start = startTime;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setEnd(Date endTime) {
+        this.end = endTime;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Date getStart() {
+        return start;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public Date getEnd() {
+        return end;
     }
 
     public Long getId() {
@@ -74,8 +73,8 @@ public class Reservation implements Serializable {
         this.sumPrice = sumPrice;
     }
 
-    public ParkingSpot getParkingSpot() {
-        return parkingSpot;
+    public ParkingSpot getSpot() {
+        return spot;
     }
 
     public Coupon getCoupon() {
@@ -103,19 +102,19 @@ public class Reservation implements Serializable {
         if (car == null)
             return "Reservation{" +
                     "id=" + id +
-                    ", startTime=" + startTime + '\n'+
-                    ", endTime=" + endTime + '\n'+
+                    ", startTime=" + start + '\n'+
+                    ", endTime=" + end + '\n'+
                     ", sumPrice=" + sumPrice + '\n'+
-                    ", parkingSpot=" + parkingSpot.toString() +
+                    ", parkingSpot=" + spot.toString() +
                     ", car=" + false +
                     '}';
 
         return "Reservation{" +
                 "id=" + id +
-                ", startTime=" + startTime + '\n'+
-                ", endTime=" + endTime + '\n'+
+                ", startTime=" + start + '\n'+
+                ", endTime=" + end + '\n'+
                 ", sumPrice=" + sumPrice + '\n'+
-                ", parkingSpot=" + parkingSpot.toString() +
+                ", parkingSpot=" + spot.toString() +
                 ", car=" + car.toString() +
                 '}';
     }
