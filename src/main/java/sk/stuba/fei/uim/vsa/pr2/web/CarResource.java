@@ -93,8 +93,9 @@ public class CarResource extends AbstractResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteCar(@PathParam("id") Long id) {
         try{
-            Car car = (Car) cps.deleteCar(id);
+            Car car = (Car) cps.getCar(id);
             if (car == null) throw new ObjectNotFoundException();
+            cps.deleteCar(id);
             return Response
                     .status(Response.Status.NO_CONTENT)
                     .build();
