@@ -45,7 +45,24 @@ public class ReservationResource extends AbstractResource {
         }
     }
 
-    //TODO: GET /reservations/{id}
+    @GET
+    @Path("/reservations/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getReservationsById(@PathParam("id") Long id){
+        try{
+            Reservation res = (Reservation) cps.getReservationById(id);
+            if (res == null) return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .build();
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(json.writeValueAsString(res))
+                    .build();
+        }
+        catch (JsonProcessingException e){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
 
     @POST
     @Path("/reservations")
