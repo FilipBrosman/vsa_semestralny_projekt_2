@@ -47,7 +47,6 @@ public class ParkingSpot implements Serializable {
     }
 
     @OneToMany(mappedBy = "spot",cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonManagedReference
     private List<Reservation> reservations = new ArrayList<>();
 
     public ParkingSpot() {
@@ -76,6 +75,11 @@ public class ParkingSpot implements Serializable {
 
     public CarParkFloor getCarParkFloor() {
         return carParkFloor;
+    }
+
+    @JsonGetter("carParkFloor")
+    public String getCarParkFloorString(){
+        return carParkFloor.getIdentifier();
     }
 
     public List<Reservation> getReservations() {

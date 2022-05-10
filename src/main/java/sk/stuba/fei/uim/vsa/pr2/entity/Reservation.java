@@ -14,9 +14,11 @@ public class Reservation implements Serializable {
     private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date start;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date end;
 
     @JsonIgnore
@@ -30,11 +32,13 @@ public class Reservation implements Serializable {
     private Car car;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
     private ParkingSpot spot;
 
     @OneToOne
-    @JsonBackReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
     private Coupon coupon;
 
     public Reservation() {

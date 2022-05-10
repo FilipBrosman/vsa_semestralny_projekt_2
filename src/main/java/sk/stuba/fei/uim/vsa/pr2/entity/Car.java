@@ -1,6 +1,8 @@
 package sk.stuba.fei.uim.vsa.pr2.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,7 +22,8 @@ public class Car implements Serializable  {
     private String color;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
     private User owner;
 
     @OneToOne
