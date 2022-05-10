@@ -78,7 +78,6 @@ public class CarParkResource extends AbstractResource {
                 }
             }
 
-            if (carPark == null) return Response.status(Response.Status.BAD_REQUEST).build();
             return Response
                     .status(Response.Status.CREATED)
                     .entity(json.writeValueAsString(carPark))
