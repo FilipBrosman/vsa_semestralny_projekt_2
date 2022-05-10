@@ -9,7 +9,7 @@ public class CarRequest {
     private String model;
     private String vrp;
     private String colour;
-    private Long owner;
+    private UserRequest owner;
 
     public String getVrp() {
         return vrp;
@@ -43,11 +43,11 @@ public class CarRequest {
         this.colour = colour;
     }
 
-    public Long getOwner() {
+    public UserRequest getOwner() {
         return owner;
     }
 
-    public void setOwner(Long owner) {
+    public void setOwner(UserRequest owner) {
         this.owner = owner;
     }
 

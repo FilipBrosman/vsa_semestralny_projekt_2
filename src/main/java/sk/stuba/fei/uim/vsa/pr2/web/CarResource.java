@@ -65,8 +65,14 @@ public class CarResource extends AbstractResource {
     public Response createCar(String body) {
         try{
             CarRequest cr = json.readValue(body, CarRequest.class);
-            User u = (User) cps.getUser(cr.getOwner());
-            if (u == null ) return Response.status(Response.Status.BAD_REQUEST).build();
+            User u;
+            if (cr.getOwner().getId() == null)
+                u = (User) cps.createUser(cr.getOwner().getFirstname(), cr.getOwner().getLastname(), cr.getOwner().getEmail());
+            else
+                u = (User) cps.getUser(cr.getOwner().getId());
+
+            if (u == null )
+                return Response.status(Response.Status.BAD_REQUEST).build();
 
             Car c = (Car) cps.createCar(u.getId(), cr.getBrand(), cr.getModel(), cr.getColour(), cr.getVrp());
             if (c == null) return Response.status(Response.Status.BAD_REQUEST).build();
