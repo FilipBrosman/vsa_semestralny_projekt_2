@@ -1,9 +1,11 @@
 package sk.stuba.fei.uim.vsa.pr2.web.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import sk.stuba.fei.uim.vsa.pr2.entity.Reservation;
 
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ParkingSpotRequest {
     private Long id;
     private String identifier;

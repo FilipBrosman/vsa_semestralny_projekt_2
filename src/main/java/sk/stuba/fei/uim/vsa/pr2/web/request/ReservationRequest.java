@@ -1,5 +1,8 @@
 package sk.stuba.fei.uim.vsa.pr2.web.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ReservationRequest {
     private Long id;
     private String start;

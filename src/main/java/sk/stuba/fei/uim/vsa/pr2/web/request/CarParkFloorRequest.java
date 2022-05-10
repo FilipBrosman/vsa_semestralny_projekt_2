@@ -1,7 +1,10 @@
 package sk.stuba.fei.uim.vsa.pr2.web.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CarParkFloorRequest {
     private Long id;
     private String identifier;
