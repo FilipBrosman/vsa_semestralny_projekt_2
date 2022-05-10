@@ -64,7 +64,7 @@ public class CouponResource extends AbstractResource {
             CouponRequest cr = json.readValue(body, CouponRequest.class);
 
             Coupon c = (Coupon) cps.createDiscountCoupon(cr.getName(),cr.getDiscount());
-            if (c == null) return Response.status(Response.Status.BAD_REQUEST).build();
+            if (c == null) return Response.status(Response.Status.NOT_FOUND).build();
 
             return Response
                     .status(Response.Status.CREATED)
@@ -84,7 +84,7 @@ public class CouponResource extends AbstractResource {
         try{
             Coupon c = (Coupon)cps.getCoupon(id);
             User u = (User) cps.getUser(userId);
-            if (c == null || u == null) return Response.status(Response.Status.BAD_REQUEST).build();
+            if (c == null || u == null) return Response.status(Response.Status.NOT_FOUND).build();
 
             cps.giveCouponToUser(id, userId);
             return Response
@@ -101,19 +101,12 @@ public class CouponResource extends AbstractResource {
     @Path("/coupons/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteCoupon( @PathParam("id") Long id ){
-        try{
             Coupon coupon = (Coupon) cps.getCoupon(id);
-            if (coupon == null) return Response
-                    .status(Response.Status.NOT_FOUND)
-                    .build();
+            if (coupon == null) return Response.status(Response.Status.NOT_FOUND).build();
+
             cps.deleteCoupon(id);
             return Response
                     .status(Response.Status.NO_CONTENT)
-                    .entity(json.writeValueAsString(coupon))
                     .build();
-        }
-        catch (JsonProcessingException e){
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
     }
 }

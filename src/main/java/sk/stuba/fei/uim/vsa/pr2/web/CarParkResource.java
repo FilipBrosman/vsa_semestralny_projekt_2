@@ -26,7 +26,7 @@ public class CarParkResource extends AbstractResource {
             List<Object> carparks = cps.getCarParks();
             if (carparks.isEmpty()) throw new ObjectNotFoundException();
             return Response
-                    .status(Response.Status.OK.getStatusCode())
+                    .status(Response.Status.OK)
                     .entity(json.writeValueAsString(carparks))
                     .build();
         }
@@ -65,24 +65,26 @@ public class CarParkResource extends AbstractResource {
                     cp.getAddress(),
                     cp.getPrices()
             );
+            if (carPark == null)
+                return Response.status(Response.Status.CONFLICT).build();
 
             for (CarParkFloorRequest floor:cp.getFloors()){
                 CarParkFloor cpf = (CarParkFloor) cps.createCarParkFloor(carPark.getId(), floor.getIdentifier());
                 if (cpf == null)
-                    return Response.status(Response.Status.BAD_REQUEST).build();
+                    return Response.status(Response.Status.CONFLICT).build();
                 for (ParkingSpotRequest spot: floor.getSpots()) {
                     if (cps.createParkingSpot(cpf.getCarPark().getId(), cpf.getIdentifier(), spot.getIdentifier()) == null)
-                        return Response.status(Response.Status.BAD_REQUEST).build();
+                        return Response.status(Response.Status.CONFLICT).build();
                 }
             }
 
-            if (carPark == null) throw new ObjectNotFoundException();
+            if (carPark == null) return Response.status(Response.Status.BAD_REQUEST).build();
             return Response
                     .status(Response.Status.CREATED)
                     .entity(json.writeValueAsString(carPark))
                     .build();
         }
-        catch (JsonProcessingException | ObjectNotFoundException e){
+        catch (JsonProcessingException e){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
@@ -94,18 +96,12 @@ public class CarParkResource extends AbstractResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteCarPark(@PathParam("id") Long id) {
-        try{
             CarPark carPark = (CarPark) cps.getCarPark(id);
-            if (carPark == null) throw new ObjectNotFoundException();
+            if (carPark == null) return Response.status(Response.Status.NOT_FOUND).build();
             cps.deleteCarPark(id);
             return Response
                     .status(Response.Status.NO_CONTENT)
-                    .entity(json.writeValueAsString(carPark))
                     .build();
-        }
-        catch (JsonProcessingException | ObjectNotFoundException e){
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
     }
 
 }

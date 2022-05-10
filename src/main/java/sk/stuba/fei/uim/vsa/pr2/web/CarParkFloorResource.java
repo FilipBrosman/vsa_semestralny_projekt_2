@@ -34,7 +34,7 @@ public class CarParkFloorResource extends AbstractResource {
                 .build();
         }
         catch (JsonProcessingException e){
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
 
@@ -74,23 +74,14 @@ public class CarParkFloorResource extends AbstractResource {
     @Path("/carparks/{id}/floors/{identifier}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteCarParkFloors(@PathParam("id") Long id, @PathParam("identifier") String identifier){
-        try{
             CarParkFloor cpf = (CarParkFloor) cps.getCarParkFloorByCarParkId(id, identifier);
-            if (cpf == null)
-                return Response
-                        .status(Response.Status.NOT_FOUND)
-                        .build();
+            if (cpf == null) return Response.status(Response.Status.NOT_FOUND).build();
 
             cpf = (CarParkFloor) cps.deleteCarParkFloor(cpf.getId());
-            if (cpf == null)
-                throw new ObjectNotFoundException();
+            if (cpf == null) return Response.status(Response.Status.NOT_FOUND).build();
+
             return Response
                     .status(Response.Status.NO_CONTENT)
-                    .entity(json.writeValueAsString(cpf))
                     .build();
-        }
-        catch (JsonProcessingException | ObjectNotFoundException e){
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
     }
 }

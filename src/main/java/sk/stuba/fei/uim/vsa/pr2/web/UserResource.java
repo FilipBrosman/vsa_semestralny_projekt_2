@@ -13,9 +13,8 @@ import sk.stuba.fei.uim.vsa.pr2.web.request.UserRequest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
-    @Path("/")
+@Path("/")
 public class UserResource extends AbstractResource {
 
     @GET
@@ -103,19 +102,9 @@ public class UserResource extends AbstractResource {
     @Path("/users/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteParkingSpot(@PathParam("id") Long id){
-        try{
             User ps = (User) cps.getUser(id);
-            if (ps == null) return Response
-                    .status(Response.Status.NOT_FOUND)
-                    .build();
+            if (ps == null) return Response.status(Response.Status.NOT_FOUND).build();
             cps.deleteUser(id);
-            return Response
-                    .status(Response.Status.NO_CONTENT)
-                    .entity(json.writeValueAsString(ps))
-                    .build();
-        }
-        catch (JsonProcessingException e){
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+            return Response.status(Response.Status.NO_CONTENT).build();
     }
 }

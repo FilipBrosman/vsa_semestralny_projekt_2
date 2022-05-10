@@ -66,7 +66,7 @@ public class CarResource extends AbstractResource {
         try{
             CarRequest cr = json.readValue(body, CarRequest.class);
             User u = (User) cps.getUser(cr.getOwner());
-            if (u == null ) return Response.status(Response.Status.NOT_FOUND).build();
+            if (u == null ) return Response.status(Response.Status.BAD_REQUEST).build();
 
             Car c = (Car) cps.createCar(u.getId(), cr.getBrand(), cr.getModel(), cr.getColour(), cr.getVrp());
             if (c == null) return Response.status(Response.Status.BAD_REQUEST).build();
@@ -87,16 +87,11 @@ public class CarResource extends AbstractResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteCar(@PathParam("id") Long id) {
-        try{
             Car car = (Car) cps.getCar(id);
-            if (car == null) throw new ObjectNotFoundException();
+            if (car == null) return Response.status(Response.Status.NOT_FOUND).build();
             cps.deleteCar(id);
             return Response
                     .status(Response.Status.NO_CONTENT)
                     .build();
-        }
-        catch (ObjectNotFoundException e){
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
     }
 }
