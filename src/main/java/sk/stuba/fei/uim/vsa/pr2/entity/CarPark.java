@@ -1,6 +1,6 @@
 package sk.stuba.fei.uim.vsa.pr2.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,7 +20,7 @@ public class CarPark implements Serializable {
     private Integer prices;
 
     @OneToMany(mappedBy = "carPark", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JsonManagedReference
+
     private final List<CarParkFloor> floors = new ArrayList<>();
 
     public CarPark() {

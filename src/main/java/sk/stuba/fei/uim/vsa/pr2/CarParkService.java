@@ -419,7 +419,7 @@ public class CarParkService extends AbstractCarParkService {
 
         long hours = (res.getEnd().getTime() - res.getStart().getTime())/1000/60/60;
         Integer pph = (int) ((hours==0)?1 : hours*res.getSpot().getCarParkFloor().getCarPark().getPrices());
-        res.setSumPrice(pph);
+        res.setPrices(pph);
         ParkingSpot ps = res.getSpot();
         Car car = ps.getCar();
         car.setReservation(null);
@@ -533,7 +533,7 @@ public class CarParkService extends AbstractCarParkService {
         long hours = (res.getEnd().getTime() - res.getStart().getTime())/1000/60/60;
         int pph = (int) ((hours==0)?1 : hours*res.getSpot().getCarParkFloor().getCarPark().getPrices());
         Integer discounted = pph - ((pph/100)* discount.getDiscount());
-        res.setSumPrice(discounted);
+        res.setPrices(discounted);
         res.setCoupon(discount);
         persist(res);
         return res;

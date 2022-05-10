@@ -67,10 +67,11 @@ public class CarParkResource extends AbstractResource {
             );
 
             for (CarParkFloorRequest floor:cp.getFloors()){
-                if (cps.createCarParkFloor(floor.getCarPark(), floor.getIdentifier()) == null)
+                CarParkFloor cpf = (CarParkFloor) cps.createCarParkFloor(carPark.getId(), floor.getIdentifier());
+                if (cpf == null)
                     return Response.status(Response.Status.BAD_REQUEST).build();
                 for (ParkingSpotRequest spot: floor.getSpots()) {
-                    if (cps.createParkingSpot(floor.getCarPark(), floor.getIdentifier(), spot.getIdentifier()) == null)
+                    if (cps.createParkingSpot(cpf.getCarPark().getId(), cpf.getIdentifier(), spot.getIdentifier()) == null)
                         return Response.status(Response.Status.BAD_REQUEST).build();
                 }
             }

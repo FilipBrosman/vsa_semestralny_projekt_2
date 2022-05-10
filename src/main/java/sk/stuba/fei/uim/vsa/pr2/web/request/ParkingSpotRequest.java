@@ -1,11 +1,24 @@
 package sk.stuba.fei.uim.vsa.pr2.web.request;
 
+import sk.stuba.fei.uim.vsa.pr2.entity.Reservation;
+
+import java.util.List;
+
 public class ParkingSpotRequest {
     private Long id;
     private String identifier;
     private String CarParkFloor;
     private Long CarPark;
     private Boolean free;
+    private List<ReservationRequest> reservations;
+
+    public List<ReservationRequest> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<ReservationRequest> reservations) {
+        this.reservations = reservations;
+    }
 
     public Long getId() {
         return id;

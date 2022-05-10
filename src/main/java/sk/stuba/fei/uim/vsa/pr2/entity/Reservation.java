@@ -1,7 +1,6 @@
 package sk.stuba.fei.uim.vsa.pr2.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,10 +19,11 @@ public class Reservation implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date end;
 
+    @JsonIgnore
     @Temporal(TemporalType.DATE)
     private final Date reservationDate = new Date();
 
-    private Integer sumPrice;
+    private Integer prices;
 
     @OneToOne(mappedBy = "reservation", fetch = FetchType.EAGER)
     @JsonManagedReference
@@ -65,12 +65,12 @@ public class Reservation implements Serializable {
         return id;
     }
 
-    public Integer getSumPrice() {
-        return sumPrice;
+    public Integer getPrices() {
+        return prices;
     }
 
-    public void setSumPrice(Integer sumPrice) {
-        this.sumPrice = sumPrice;
+    public void setPrices(Integer sumPrice) {
+        this.prices = sumPrice;
     }
 
     public ParkingSpot getSpot() {
@@ -112,7 +112,7 @@ public class Reservation implements Serializable {
                     "id=" + id +
                     ", startTime=" + start + '\n'+
                     ", endTime=" + end + '\n'+
-                    ", sumPrice=" + sumPrice + '\n'+
+                    ", sumPrice=" + prices + '\n'+
                     ", parkingSpot=" + spot.toString() +
                     ", car=" + false +
                     '}';
@@ -121,7 +121,7 @@ public class Reservation implements Serializable {
                 "id=" + id +
                 ", startTime=" + start + '\n'+
                 ", endTime=" + end + '\n'+
-                ", sumPrice=" + sumPrice + '\n'+
+                ", sumPrice=" + prices + '\n'+
                 ", parkingSpot=" + spot.toString() +
                 ", car=" + car.toString() +
                 '}';

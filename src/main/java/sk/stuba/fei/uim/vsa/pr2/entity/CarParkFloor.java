@@ -1,8 +1,8 @@
 package sk.stuba.fei.uim.vsa.pr2.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,11 +20,12 @@ public class CarParkFloor implements Serializable {
     private String identifier;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private CarPark carPark;
 
     @OneToMany(mappedBy = "carParkFloor", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JsonManagedReference
     private final List<ParkingSpot> spots = new ArrayList<>();
 
     public CarParkFloor(CarPark carPark, String identifier) {
